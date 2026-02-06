@@ -208,11 +208,16 @@
             }
 
             .gallery-mobile {
-                display: block;
+                display: flex !important;
+                min-height: 100vh;
+                align-items: center;
+                /* Vertically center the strip */
             }
 
             .horiz-gallery-wrapper {
-                height: 75vh;
+                height: auto;
+                /* Allow sizing by content */
+                width: 100%;
             }
 
             .horiz-gallery-strip {
