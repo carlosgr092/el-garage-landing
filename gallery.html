@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Hall of Fame - Galería de trabajos de El Garage Euro Car. Polarizados, detallado, pintura y más.">
+    <meta name="theme-color" content="#000000">
+    <title>Hall of Fame | El Garage Euro Car</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23D4AF37'/><text x='50' y='68' font-family='Arial' font-size='45' font-weight='bold' text-anchor='middle' fill='%23000'>EG</text></svg>">
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <a href="index.html" class="logo">EL GARAGE</a>
+        <nav class="nav">
+            <a href="index.html" class="nav-link">Inicio</a>
+            <a href="index.html#servicios" class="nav-link">Servicios</a>
+            <a href="#contacto" class="nav-link">Contacto</a>
+        </nav>
+        <button class="nav-toggle" aria-label="Menu">☰</button>
+    </header>
+
+    <!-- GALLERY HERO -->
+    <section class="gallery-hero">
+        <div class="hero-content">
+            <h1 class="gallery-hero-title">
+                <span class="split-text">
+                    <span class="gold-outline">NUESTROS</span><br>
+                    <span class="filled">TRABAJOS</span>
+                </span>
+            </h1>
+            <p class="gallery-hero-subtitle">Lo que hacemos, lo hacemos bien</p>
+        </div>
+    </section>
+
+    <!-- POLARIZADO -->
+    <section class="category-section" id="polarizado">
+        <div class="container">
+            <div class="category-header">
+                <h2 class="category-title">Polarizado</h2>
+                <span class="category-count">Películas de alta calidad</span>
+            </div>
+            <div class="hof-grid">
+                <div class="hof-item">
+                    <img src="images/416487203601321.jpg" alt="Fiat 500 Abarth">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Fiat 500 Abarth</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/291452092771500.jpg" alt="Onix Naranja">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Chevrolet Onix</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/502866951630012.jpg" alt="Ford EcoSport">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Ford EcoSport</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/633024708614235.jpg" alt="Nissan Pathfinder">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Nissan Pathfinder</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/416487170267991.jpg" alt="Polarizado SUV">
+                    <div class="hof-item-overlay"><span class="hof-item-name">SUV Premium</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/416487243601317.jpg" alt="Polarizado Sedan">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Sedan</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/416487280267980.jpg" alt="Polarizado Compacto">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Compacto</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/416487323601309.jpg" alt="Polarizado Premium">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Premium Dark</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETALLADO -->
+    <section class="category-section" id="detallado">
+        <div class="container">
+            <div class="category-header">
+                <h2 class="category-title">Detallado</h2>
+                <span class="category-count">Interior y exterior premium</span>
+            </div>
+            <div class="hof-grid">
+                <div class="hof-item">
+                    <img src="images/326845885898787.jpg" alt="Limpieza Cielo">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Cielo Interior</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/671432461784390.jpg" alt="Detallado Interior">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Interior Completo</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/671432495117720.jpg" alt="Detallado Asientos">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Asientos</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/671432531784383.jpg" alt="Detallado Motor">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Motor</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/671432401784396.jpg" alt="Pulido">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Pulido Exterior</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/671432428451060.jpg" alt="Encerado">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Encerado</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/671432571784379.jpg" alt="Restauración">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Restauración</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/291452136104829.jpg" alt="Detallado Final">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Resultado Final</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PINTURA & WRAP -->
+    <section class="category-section" id="pintura">
+        <div class="container">
+            <div class="category-header">
+                <h2 class="category-title">Pintura & Wrap</h2>
+                <span class="category-count">Transformación total</span>
+            </div>
+            <div class="hof-grid">
+                <div class="hof-item">
+                    <img src="images/380645673852141.jpg" alt="Jeep Wrap Rojo">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Jeep Compass Wrap</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/646451063938266.jpg" alt="Pintura Blanca">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Pintura Blanca</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/448726573710717.jpg" alt="Proceso Pintura">
+                    <div class="hof-item-overlay"><span class="hof-item-name">En Proceso</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/405646121352096.jpg" alt="Preparación">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Preparación</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/380645430518832.jpg" alt="Wrap Mate">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Wrap Mate</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/380645477185494.jpg" alt="Wrap Acabado">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Acabado</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/380645527185489.jpg" alt="Wrap Color">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Color Custom</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/380645563852152.jpg" alt="Wrap Final">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Resultado</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALIPERS & DETALLES -->
+    <section class="category-section" id="calipers">
+        <div class="container">
+            <div class="category-header">
+                <h2 class="category-title">Calipers & Detalles</h2>
+                <span class="category-count">Toques premium</span>
+            </div>
+            <div class="hof-grid">
+                <div class="hof-item">
+                    <img src="images/290660082850701.jpg" alt="Caliper Rojo">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Caliper Rojo</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/290660126184030.jpg" alt="Caliper Detalle">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Detalle Caliper</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/290660169517359.jpg" alt="Caliper Pintado">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Pintado Custom</span></div>
+                </div>
+                <div class="hof-item">
+                    <img src="images/290660226184020.jpg" alt="Caliper Acabado">
+                    <div class="hof-item-overlay"><span class="hof-item-name">Acabado Premium</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer" id="contacto">
+        <div class="container">
+            <h2 class="footer-cta-title">¿TE GUSTÓ NUESTRO TRABAJO?</h2>
+            <p class="footer-cta-text">Cotiza tu proyecto por WhatsApp</p>
+
+            <a href="https://wa.me/523331171685?text=Hola!%20Vi%20su%20galería%20y%20me%20gustaría%20cotizar"
+                class="whatsapp-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                </svg>
+                Cotizar por WhatsApp
+            </a>
+
+            <div class="footer-social">
+                <a href="https://www.instagram.com/elgarageoficial.1/" target="_blank" class="social-link"
+                    aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                </a>
+                <a href="https://www.facebook.com/GGAARRAAGGEE" target="_blank" class="social-link"
+                    aria-label="Facebook">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                </a>
+                <a href="https://www.tiktok.com/@elgarageoficial" target="_blank" class="social-link"
+                    aria-label="TikTok">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+                    </svg>
+                </a>
+            </div>
+
+            <p class="footer-tagline">Always bringing the quality.</p>
+            <p class="footer-copy">© 2026 El Garage Euro Car. Guadalajara, México.</p>
+        </div>
+    </footer>
+
+    <!-- FLOATING WHATSAPP -->
+    <a href="https://wa.me/523331171685" class="whatsapp-float" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg>
+    </a>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <img src="" alt="Vista ampliada">
+        <button class="lightbox-close">×</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
