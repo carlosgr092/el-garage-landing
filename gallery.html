@@ -4,10 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="El Garage Euro Car - Especialistas en polarizados, detallado, pintura y accesorios automotrices en Guadalajara.">
+    <meta name="theme-color" content="#000000">
     <title>Galería | El Garage Euro Car</title>
 
-    <link rel='stylesheet' href='https://codepen.io/GreenSock/pen/qEWKyrL.css'>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23D4AF37'/><text x='50' y='68' font-family='Arial' font-size='45' font-weight='bold' text-anchor='middle' fill='%23000'>EG</text></svg>">
 
     <style>
         * {
@@ -43,52 +47,6 @@
             line-height: 1.8;
             color: #aaa;
             margin-bottom: 1rem;
-        }
-
-        /* Footer local */
-        .gallery-footer {
-            padding: 3rem 2rem;
-            text-align: center;
-            background: #000;
-        }
-
-        .gallery-footer .footer-social {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .gallery-footer .social-link {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #333;
-            border-radius: 50%;
-            color: #fff;
-            transition: all 0.3s;
-        }
-
-        .gallery-footer .social-link:hover {
-            border-color: #D4AF37;
-            color: #D4AF37;
-        }
-
-        .gallery-footer .social-link svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .gallery-footer .footer-tagline {
-            color: #D4AF37;
-            margin-bottom: 0.5rem;
-        }
-
-        .gallery-footer .footer-copy {
-            color: #666;
-            font-size: 0.85rem;
         }
 
         .whatsapp-float {
@@ -227,7 +185,7 @@
             max-height: 550px;
             object-fit: cover;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
         }
 
         /* Responsive - Móvil */
@@ -235,35 +193,49 @@
             .gallery-wrap {
                 display: none !important;
             }
-            
+
             .gallery-hero {
                 height: 35vh !important;
                 min-height: 250px !important;
             }
-            
+
             .gallery-hero-title {
                 font-size: clamp(2.5rem, 10vw, 4rem) !important;
             }
-            
+
             .gallery-hero-subtitle {
                 font-size: 0.75rem !important;
             }
-            
+
             .gallery-mobile {
                 display: block;
             }
-            
+
             .horiz-gallery-wrapper {
                 height: 75vh;
             }
-            
-            .project-wrap {
-                width: 85vw;
+
+            .horiz-gallery-strip {
+                padding: 0 10vw;
+                /* Center the first/last items (10vw + 80vw + 10vw = 100vw) */
+                gap: 20px;
+                /* Explicit gap between items */
             }
-            
+
+            .project-wrap {
+                width: 80vw;
+                /* Wider frame */
+                padding: 0;
+                /* Remove internal padding, use gap instead */
+            }
+
             .project-wrap img {
                 height: 60vh;
-                max-height: 450px;
+                /* Taller, more premium height */
+                max-height: none;
+                object-fit: cover;
+                border-radius: 12px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             }
         }
 
@@ -309,6 +281,57 @@
             color: #888;
             letter-spacing: 0.2em;
             text-transform: uppercase;
+        }
+
+        /* CRITICAL: Fix SplitType vertical stacking */
+        .gallery-hero-title .char,
+        .gallery-hero-title .word,
+        .intro-title .char,
+        .intro-title .word {
+            display: inline-block !important;
+            vertical-align: middle;
+        }
+
+        /* Gallery Description Overrides */
+        .intro-section.gallery-intro {
+            min-height: 50vh;
+            padding: 8rem 2rem;
+            background: radial-gradient(circle at center, #111 0%, #000 70%);
+        }
+
+        .intro-section.gallery-intro::after {
+            content: 'PREMIUM';
+            top: 50%;
+            left: 50%;
+            bottom: auto;
+            right: auto;
+            transform: translate(-50%, -50%);
+            font-size: clamp(8rem, 25vw, 20rem);
+            color: rgba(255, 255, 255, 0.015);
+            z-index: 0;
+        }
+
+        .intro-section.gallery-intro::before {
+            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+        }
+
+        .intro-section.gallery-intro .intro-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* CRITICAL: Force Gallery Visibility */
+        #gallery-8 {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* CRITICAL: Force Intro Description Visibility */
+        .intro-desc {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+            /* Prevent GSAP translation from hiding it */
         }
     </style>
 </head>
@@ -395,14 +418,56 @@
         </div>
     </section>
 
-    <section class="section-description">
-        <h2>Nuestros Mejores Trabajos</h2>
-        <p>Cada proyecto refleja nuestra pasión por la excelencia. Nos enorgullecemos de entregar resultados que superan
-            las expectativas.</p>
-        <p>En El Garage Euro Car, tu auto está en las mejores manos.</p>
+    <style>
+        /* ... existing styles ... */
+        .intro-section {
+            min-height: 50vh;
+            padding: 5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .intro-section {
+                padding: 3rem 1.5rem;
+                /* Better mobile spacing */
+                min-height: 40vh;
+            }
+
+            .intro-title {
+                font-size: 3rem !important;
+                /* Force readable size */
+                line-height: 1.1;
+            }
+
+            .intro-desc {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+        }
+    </style>
+    <!-- ... -->
+    <section class="intro-section gallery-intro">
+        <div class="intro-grid" style="grid-template-columns: 1fr; text-align: center; gap: 2rem;">
+            <div class="intro-text" style="align-items: center;">
+                <span class="intro-label">CALIDAD SUPERIOR</span>
+                <h2 class="intro-title" style="font-size: clamp(3rem, 8vw, 6rem);">
+                    <span class="outline">PERFECCIÓN</span><br>
+                    <span class="filled">AUTOMOTRIZ</span>
+                </h2>
+                <div class="intro-desc" style="margin: 0 auto; max-width: 600px; border-left: none; padding-left: 0;">
+                    <p style="margin-bottom: 1rem;">Cada proyecto refleja nuestra pasión por la excelencia. Nos
+                        enorgullecemos de entregar resultados que no solo cumplen, sino que <span
+                            style="color: #D4AF37;">superan las expectativas.</span></p>
+                    <p>En El Garage Euro Car, tu auto está en las <span style="color: #fff; font-weight: 500;">mejores
+                            manos.</span></p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer class="gallery-footer">
+    <footer class="footer">
         <div class="footer-social">
             <a href="https://www.instagram.com/elgarageoficial.1/" target="_blank" class="social-link">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -434,130 +499,122 @@
         </svg>
     </a>
 
-    <script src='https://unpkg.com/gsap@3/dist/gsap.min.js'></script>
-    <script src='https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js'></script>
-    <script src='https://assets.codepen.io/16327/Flip.min.js'></script>
-    <script src='https://unpkg.com/gsap@3/dist/EasePack.min.js'></script>
-    <script src="https://unpkg.com/split-type"></script>
+    <script src="js/gsap.min.js"></script>
+    <script src="js/ScrollTrigger.min.js"></script>
+    <script src="js/Flip.min.js"></script>
+    <script src="js/EasePack.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
 
     <script>
-        console.clear();
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.registerPlugin(Flip);
+        document.addEventListener('DOMContentLoaded', () => {
+            console.clear();
 
-        let flipCtx;
+            // SAFETY: Force visibility immediately in case script fails
+            gsap.set("#gallery-8, body", { autoAlpha: 1 });
 
-        const createTween = () => {
-            let galleryElement = document.querySelector("#gallery-8");
-            let galleryItems = galleryElement.querySelectorAll(".gallery__item");
+            try {
+                gsap.registerPlugin(ScrollTrigger, Flip);
 
-            flipCtx && flipCtx.revert();
-            galleryElement.classList.remove("gallery--final");
+                // Use ScrollTrigger.matchMedia for robust responsive handling
+                let mm = gsap.matchMedia();
 
-            flipCtx = gsap.context(() => {
-                galleryElement.classList.add("gallery--final");
-                const flipState = Flip.getState(galleryItems);
-                galleryElement.classList.remove("gallery--final");
+                // Mobile Only (< 768px)
+                mm.add("(max-width: 768px)", () => {
+                    const mobileSection = document.getElementById('mobile-portfolio');
+                    const strip = mobileSection?.querySelector('.horiz-gallery-strip');
 
-                const flip = Flip.to(flipState, {
-                    simple: true,
-                    ease: "expoScale(1, 5)"
-                });
+                    if (mobileSection && strip) {
+                        const getScrollAmount = () => -(strip.scrollWidth - window.innerWidth);
 
-                const tl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: galleryElement,
-                        start: "center center",
-                        end: "+=100%",
-                        scrub: true,
-                        pin: galleryElement.parentNode
+                        gsap.to(strip, {
+                            x: getScrollAmount,
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: mobileSection,
+                                start: "top top",
+                                end: () => `+=${strip.scrollWidth}`,
+                                pin: true,
+                                scrub: 1,
+                                invalidateOnRefresh: true
+                            }
+                        });
                     }
                 });
-                tl.add(flip);
-                return () => gsap.set(galleryItems, { clearProps: "all" });
-            });
-        };
 
-        // Hero Animation - IGUAL QUE LA PÁGINA PRINCIPAL
-        const initHeroAnimation = () => {
-            const heroTitle = document.querySelector('.gallery-hero-title');
-            
-            if (heroTitle && typeof SplitType !== 'undefined') {
-                const text = new SplitType(heroTitle, { types: 'chars' });
+                // Desktop Only (> 768px)
+                mm.add("(min-width: 769px)", () => {
+                    let flipCtx;
+                    let galleryElement = document.querySelector("#gallery-8");
+                    let galleryItems = galleryElement?.querySelectorAll(".gallery__item");
 
-                gsap.from(text.chars, {
-                    opacity: 0,
-                    y: 60,
-                    rotateX: -45,
-                    transformPerspective: 800,
-                    duration: 1,
-                    stagger: { amount: 0.6, from: 'start' },
-                    ease: 'power3.out',
-                    delay: 0.2,
-                    clearProps: 'all'
+                    if (galleryElement && galleryItems?.length) {
+                        const updateFlip = () => {
+                            flipCtx && flipCtx.revert();
+                            galleryElement.classList.remove("gallery--final");
+
+                            flipCtx = gsap.context(() => {
+                                galleryElement.classList.add("gallery--final");
+                                const flipState = Flip.getState(galleryItems);
+                                galleryElement.classList.remove("gallery--final");
+
+                                const flip = Flip.to(flipState, {
+                                    simple: true,
+                                    ease: "expoScale(1, 5)"
+                                });
+
+                                const tl = gsap.timeline({
+                                    scrollTrigger: {
+                                        trigger: galleryElement,
+                                        start: "center center",
+                                        end: "+=100%",
+                                        scrub: true,
+                                        pin: galleryElement.parentNode
+                                    }
+                                });
+                                tl.add(flip);
+                            });
+                        };
+
+                        updateFlip();
+                    }
+
+                    // Cleanup function
+                    return () => {
+                        flipCtx && flipCtx.revert();
+                    };
                 });
+
+                // Universal (All sizes) - Intro Text Visibility Force
+                // Slight delay to ensure it overrides any conflicting global scripts
+                setTimeout(() => {
+                    gsap.to('.intro-desc', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: 'power3.out',
+                        overwrite: 'auto'
+                    });
+
+                    gsap.to('.intro-label', {
+                        opacity: 1,
+                        x: 0,
+                        duration: 1,
+                        ease: 'power3.out',
+                        overwrite: 'auto'
+                    });
+                }, 500);
+
+                // Allow ScrollTrigger to refresh calculation on load
+                ScrollTrigger.refresh();
+
+            } catch (error) {
+                console.error("GSAP Initialization Error:", error);
+                // Fallback transparency removal
+                document.querySelector("#gallery-8").style.opacity = "1";
+                document.querySelector("#gallery-8").style.visibility = "visible";
             }
-
-            // Subtitle animation
-            gsap.from(".gallery-hero-subtitle", {
-                y: 30,
-                opacity: 0,
-                duration: 1,
-                delay: 0.8,
-                ease: "power4.out"
-            });
-        };
-
-        // Initialize
-        initHeroAnimation();
-        createTween();
-        window.addEventListener("resize", createTween);
-
-        // Nav toggle
-        const navToggle = document.querySelector('.nav-toggle');
-        const nav = document.querySelector('.nav');
-        if (navToggle && nav) {
-            navToggle.addEventListener('click', () => {
-                nav.classList.toggle('active');
-                navToggle.textContent = nav.classList.contains('active') ? '✕' : '☰';
-            });
-        }
-
-        // Mobile Gallery - Horizontal Scroll con ScrollTrigger
-        const initMobileGallery = () => {
-            const mobileSection = document.getElementById('mobile-portfolio');
-            if (!mobileSection) return;
-            
-            const wrapper = mobileSection.querySelector('.horiz-gallery-wrapper');
-            const strip = mobileSection.querySelector('.horiz-gallery-strip');
-            
-            if (!wrapper || !strip) return;
-            
-            function getScrollAmount() {
-                return -(strip.scrollWidth - window.innerWidth);
-            }
-            
-            // Animación horizontal con ScrollTrigger
-            gsap.to(strip, {
-                x: getScrollAmount,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: wrapper,
-                    start: "top top",
-                    end: () => `+=${strip.scrollWidth - window.innerWidth}`,
-                    pin: true,
-                    scrub: 1,
-                    invalidateOnRefresh: true
-                }
-            });
-        };
-        
-        // Inicializar galería móvil solo en pantallas pequeñas
-        if (window.innerWidth <= 768) {
-            initMobileGallery();
-        }
+        });
     </script>
-
 </body>
 
 </html>

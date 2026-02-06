@@ -650,7 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Standard Flip for other simple grids (Detallado/Calipers) if needed or reuse same logic
             // For now, let's keep it specific as requested for "Mejores Autos" first
-            const otherGalleries = document.querySelectorAll('.gallery--bento:not(#gallery-best-cars)');
+            const otherGalleries = document.querySelectorAll('.gallery--bento:not(#gallery-best-cars):not(#gallery-8)');
             otherGalleries.forEach(gallery => {
                 // Simple static grid or ScrollTrigger batch for others?
                 // User said "1 en las otras 2 eres libre".
