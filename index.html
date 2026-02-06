@@ -15,17 +15,29 @@
 
 <body>
 
+    <!-- PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-logo">EL GARAGE</div>
+            <div class="preloader-bar">
+                <div class="preloader-progress" id="preloader-progress"></div>
+            </div>
+            <div class="preloader-text">Cargando...</div>
+        </div>
+    </div>
+
     <!-- HEADER -->
     <header class="header">
         <a href="/" class="logo">EL GARAGE</a>
         <nav class="nav">
             <a href="#servicios" class="nav-link">Servicios</a>
-            <a href="gallery.html" class="nav-link">Hall of Fame</a>
+            <a href="gallery.html" class="nav-link">Galería</a>
             <a href="#contacto" class="nav-link">Contacto</a>
         </nav>
         <button class="nav-toggle" aria-label="Menu">☰</button>
     </header>
 
+    <!-- HERO -->
     <!-- HERO -->
     <section class="hero">
         <!-- Background Video -->
@@ -38,10 +50,9 @@
                 <span class="el-text">EL</span>
                 <span class="garage-text">GARAGE</span>
             </h1>
-            <p class="hero-tagline">Venta de accesorios • Alarmas • GPS • Equipos para autos • Motos • Instalaciones</p>
-            <!-- CTA Removed as requested -->
+            <p class="hero-tagline">ESTUDIO AUTOMOTRIZ</p>
         </div>
-        <div class="hero-scroll">Scroll</div>
+        <div class="hero-scroll">Desliza</div>
     </section>
 
     <!-- EN TALLER (like ON TRACK / OFF TRACK) -->
@@ -129,45 +140,36 @@
         </div>
     </section>
 
-    <!-- HALL OF FAME PREVIEW -->
+    <!-- GALERÍA PREVIEW - Collage Style -->
     <section class="preview-section">
         <div class="container">
-            <div class="preview-header">
-                <div>
-                    <span class="section-subtitle">Hall of Fame</span>
-                    <h2 class="section-title">Hall of Fame</h2>
-                </div>
-                <a href="gallery.html" class="preview-link">
-                    VER GALERÍA COMPLETA →
-                </a>
+            <div class="section-header">
+                <span class="section-subtitle">Nuestro trabajo</span>
+                <h2 class="section-title">
+                    <span class="split-text">
+                        <span class="gold-outline">NUESTRA</span><br>
+                        <span class="filled">GALERÍA</span>
+                    </span>
+                </h2>
             </div>
 
-            <div class="preview-grid">
-                <div class="preview-item">
-                    <img src="images/416487203601321.jpg" alt="Fiat 500 Abarth">
-                    <span class="preview-item-label">Fiat 500</span>
+            <!-- Gallery Collage -->
+            <a href="gallery.html" class="gallery-collage">
+                <div class="collage-images">
+                    <div class="collage-img collage-img-1">
+                        <img src="images/416487203601321.jpg" alt="Fiat 500 Abarth">
+                    </div>
+                    <div class="collage-img collage-img-2">
+                        <img src="images/380645673852141.jpg" alt="Jeep Compass">
+                    </div>
+                    <div class="collage-img collage-img-3">
+                        <img src="images/502866951630012.jpg" alt="EcoSport">
+                    </div>
                 </div>
-                <div class="preview-item">
-                    <img src="images/380645673852141.jpg" alt="Jeep Compass">
-                    <span class="preview-item-label">Jeep Wrap</span>
+                <div class="collage-cta">
+                    <span>ver más</span>
                 </div>
-                <div class="preview-item">
-                    <img src="images/290660082850701.jpg" alt="Caliper Rojo">
-                    <span class="preview-item-label">Calipers</span>
-                </div>
-                <div class="preview-item">
-                    <img src="images/502866951630012.jpg" alt="EcoSport">
-                    <span class="preview-item-label">Detallado</span>
-                </div>
-                <div class="preview-item">
-                    <img src="images/646451063938266.jpg" alt="Pintura">
-                    <span class="preview-item-label">Pintura</span>
-                </div>
-                <div class="preview-item">
-                    <img src="images/448726573710717.jpg" alt="Proceso">
-                    <span class="preview-item-label">En Proceso</span>
-                </div>
-            </div>
+            </a>
         </div>
     </section>
 
@@ -210,7 +212,7 @@
                 </a>
             </div>
 
-            <p class="footer-tagline">Always bringing the quality.</p>
+            <p class="footer-tagline">Siempre con la mejor calidad.</p>
             <p class="footer-copy">© 2026 El Garage Euro Car. Guadalajara, México.</p>
         </div>
     </footer>
@@ -226,6 +228,8 @@
     <!-- GSAP for scroll animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
     <script src="script.js"></script>
 </body>
 

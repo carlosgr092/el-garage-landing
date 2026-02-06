@@ -5,18 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Hall of Fame - Galería de trabajos de El Garage Euro Car. Polarizados, detallado, pintura y más.">
+        content="Galería de trabajos de El Garage Euro Car. Polarizados, detallado, pintura y más.">
     <meta name="theme-color" content="#000000">
-    <title>Hall of Fame | El Garage Euro Car</title>
+    <title>Galería | El Garage Euro Car</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23D4AF37'/><text x='50' y='68' font-family='Arial' font-size='45' font-weight='bold' text-anchor='middle' fill='%23000'>EG</text></svg>">
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
 </head>
 
 <body>
+
+    <!-- PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-logo">EL GARAGE</div>
+            <div class="preloader-bar">
+                <div class="preloader-progress" id="preloader-progress"></div>
+            </div>
+            <div class="preloader-text">Cargando...</div>
+        </div>
+    </div>
 
     <!-- HEADER -->
     <header class="header">
@@ -241,7 +254,7 @@
                 </a>
             </div>
 
-            <p class="footer-tagline">Always bringing the quality.</p>
+            <p class="footer-tagline">Siempre con la mejor calidad.</p>
             <p class="footer-copy">© 2026 El Garage Euro Car. Guadalajara, México.</p>
         </div>
     </footer>

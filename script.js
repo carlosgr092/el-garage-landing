@@ -1,15 +1,94 @@
 /**
- * El Garage Euro Car - Script
- * Includes: General UI, Lightbox, and GSAP Animations (Stacking + Premium Gallery)
+ * El Garage Euro Car - Premium GSAP Animations
+ * With Preloader + Corrected Animations
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
     // ============================================
-    // 1. GENERAL UI INTERACTIONS (No GSAP dependency)
+    // 1. PRELOADER SYSTEM
     // ============================================
+    const preloader = document.getElementById('preloader');
+    const progressBar = document.getElementById('preloader-progress');
+    
+    let loadedAssets = 0;
+    let totalAssets = 0;
+    
+    // Count assets to load
+    const images = document.querySelectorAll('img');
+    const video = document.querySelector('.hero-video');
+    
+    totalAssets = images.length + (video ? 1 : 0);
+    if (totalAssets === 0) totalAssets = 1; // Prevent division by zero
+    
+    function updateProgress() {
+        loadedAssets++;
+        const percent = Math.min((loadedAssets / totalAssets) * 100, 100);
+        
+        if (progressBar) {
+            progressBar.style.width = percent + '%';
+        }
+        
+        if (loadedAssets >= totalAssets) {
+            finishLoading();
+        }
+    }
+    
+    function finishLoading() {
+        // Small delay for smooth feel
+        setTimeout(() => {
+            if (typeof gsap !== 'undefined' && preloader) {
+                // Animate preloader out
+                gsap.to(preloader, {
+                    yPercent: -100,
+                    duration: 0.8,
+                    ease: 'power3.inOut',
+                    onComplete: () => {
+                        preloader.remove();
+                        initAllAnimations();
+                    }
+                });
+            } else {
+                if (preloader) preloader.remove();
+                initAllAnimations();
+            }
+        }, 300);
+    }
+    
+    // Track image loading
+    images.forEach(img => {
+        if (img.complete) {
+            updateProgress();
+        } else {
+            img.addEventListener('load', updateProgress);
+            img.addEventListener('error', updateProgress); // Count errors too
+        }
+    });
+    
+    // Track video loading
+    if (video) {
+        if (video.readyState >= 3) {
+            updateProgress();
+        } else {
+            video.addEventListener('canplaythrough', updateProgress, { once: true });
+            video.addEventListener('error', updateProgress, { once: true });
+            // Fallback timeout for slow videos
+            setTimeout(() => {
+                if (loadedAssets < totalAssets) updateProgress();
+            }, 5000);
+        }
+    }
+    
+    // Fallback: If nothing loads after 8 seconds, proceed anyway
+    setTimeout(() => {
+        if (preloader && preloader.parentNode) {
+            finishLoading();
+        }
+    }, 8000);
 
-    // --- Mobile Nav ---
+    // ============================================
+    // 2. GENERAL UI (No GSAP dependency)
+    // ============================================
     const navToggle = document.querySelector('.nav-toggle');
     const nav = document.querySelector('.nav');
 
@@ -20,36 +99,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Header Background on Scroll ---
+    // Header scroll effect
     const header = document.querySelector('.header');
-    let ticking = false;
-
     window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                if (window.scrollY > 100) {
-                    header?.classList.add('scrolled');
-                } else {
-                    header?.classList.remove('scrolled');
-                }
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
+        header?.classList.toggle('scrolled', window.scrollY > 100);
+    }, { passive: true });
 
-    // --- Smooth Scroll for Anchors ---
+    // Smooth scroll anchors
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-                // Close mobile nav if open
-                if (nav && nav.classList.contains('active')) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (nav?.classList.contains('active')) {
                     nav.classList.remove('active');
                     if (navToggle) navToggle.textContent = '☰';
                 }
@@ -57,32 +120,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Lazy Loading ---
-    const lazyImages = document.querySelectorAll('img[data-src]');
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src;
-                    img.removeAttribute('data-src');
-                    imageObserver.unobserve(img);
-                }
-            });
-        }, { rootMargin: '100px' });
-
-        lazyImages.forEach(img => imageObserver.observe(img));
-    }
-
-
     // ============================================
-    // 2. UNIVERSAL LIGHTBOX
+    // 3. LIGHTBOX
     // ============================================
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = lightbox?.querySelector('img');
     const lightboxClose = lightbox?.querySelector('.lightbox-close');
-
-    // Select both gallery items and general preview items
     const lightboxTriggers = document.querySelectorAll('.hof-item, .preview-item, .gallery-item');
 
     lightboxTriggers.forEach(item => {
@@ -90,56 +133,36 @@ document.addEventListener('DOMContentLoaded', () => {
             const img = item.querySelector('img');
             if (!img || !lightbox || !lightboxImg) return;
 
-            // Update Source
             lightboxImg.src = img.src;
             lightboxImg.alt = img.alt;
 
-            // FLIP Animation Start Position (if GSAP available)
             if (typeof gsap !== 'undefined') {
                 const rect = img.getBoundingClientRect();
                 gsap.set(lightboxImg, {
-                    position: 'fixed',
-                    left: rect.left,
-                    top: rect.top,
-                    width: rect.width,
-                    height: rect.height,
-                    objectFit: 'cover',
-                    borderRadius: getComputedStyle(img).borderRadius,
-                    opacity: 1
+                    position: 'fixed', left: rect.left, top: rect.top,
+                    width: rect.width, height: rect.height,
+                    objectFit: 'cover', borderRadius: getComputedStyle(img).borderRadius, opacity: 1
                 });
             }
 
-            // Show Lightbox
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
 
-            // Animate to Center (if GSAP available)
             if (typeof gsap !== 'undefined') {
                 gsap.to(lightboxImg, {
-                    left: '50%',
-                    top: '50%',
-                    xPercent: -50,
-                    yPercent: -50,
-                    width: 'min(90vw, 1200px)',
-                    height: 'auto',
-                    objectFit: 'contain',
-                    duration: 0.5,
-                    ease: 'power3.out'
+                    left: '50%', top: '50%', xPercent: -50, yPercent: -50,
+                    width: 'min(90vw, 1200px)', height: 'auto', objectFit: 'contain',
+                    duration: 0.5, ease: 'power3.out'
                 });
             }
         });
     });
 
-    // Close Function
     const closeLightbox = () => {
         if (!lightbox) return;
-
         if (typeof gsap !== 'undefined' && lightboxImg) {
             gsap.to(lightboxImg, {
-                scale: 0.8,
-                opacity: 0,
-                duration: 0.3,
-                ease: 'power2.in',
+                scale: 0.9, opacity: 0, duration: 0.25, ease: 'power2.in',
                 onComplete: () => {
                     lightbox.classList.remove('active');
                     document.body.style.overflow = '';
@@ -152,24 +175,410 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
-    if (lightbox) {
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) closeLightbox();
-        });
-    }
+    lightboxClose?.addEventListener('click', closeLightbox);
+    lightbox?.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && lightbox?.classList.contains('active')) closeLightbox();
     });
 
+    // ============================================
+    // 4. MAIN ANIMATION INIT FUNCTION
+    // ============================================
+    function initAllAnimations() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+            console.warn('GSAP not loaded');
+            return;
+        }
 
-    // ============================================
-    // 3. GSAP ANIMATIONS (Stacking + Gallery)
-    // ============================================
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
+        
+        // Reduced motion check
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+            console.log('Reduced motion enabled - animations simplified');
+        }
 
-        // --- A. Main Page Card Stacking ---
+        // ============================================
+        // LENIS SMOOTH SCROLL
+        // ============================================
+        if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+
+            gsap.ticker.add((time) => lenis.raf(time * 1000));
+            gsap.ticker.lagSmoothing(0);
+        }
+
+        // ============================================
+        // HERO TITLE - Clean reveal
+        // ============================================
+        const heroTitle = document.querySelector('.hero-title');
+        const galleryHeroTitle = document.querySelector('.gallery-hero-title');
+
+        [heroTitle, galleryHeroTitle].filter(el => el).forEach(title => {
+            if (typeof SplitType !== 'undefined') {
+                const text = new SplitType(title, { types: 'chars' });
+                
+                gsap.from(text.chars, {
+                    opacity: 0,
+                    y: 60,
+                    rotateX: -45,
+                    transformPerspective: 800,
+                    duration: 1,
+                    stagger: { amount: 0.6, from: 'start' },
+                    ease: 'power3.out',
+                    delay: 0.2,
+                    clearProps: 'all'
+                });
+            }
+        });
+
+        // ============================================
+        // INTRO SECTION - Smooth parallax
+        // ============================================
+        const introSection = document.querySelector('.intro-section');
+        if (introSection && !prefersReducedMotion) {
+            const introImage = introSection.querySelector('.intro-image');
+            const introLabel = introSection.querySelector('.intro-label');
+            const introTitle = introSection.querySelector('.intro-title');
+            const introDesc = introSection.querySelector('.intro-desc');
+
+            // Subtle parallax
+            if (introImage) {
+                gsap.to(introImage, {
+                    yPercent: -10,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: introSection,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 2
+                    }
+                });
+            }
+
+            // Content reveal
+            const introTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: introSection,
+                    start: 'top 70%',
+                    end: 'top 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            if (typeof SplitType !== 'undefined' && introTitle) {
+                const introChars = new SplitType(introTitle, { types: 'chars' });
+                
+                introTl
+                    .from(introLabel, { 
+                        opacity: 0, x: -30, 
+                        duration: 0.5, ease: 'power3.out' 
+                    })
+                    .from(introChars.chars, {
+                        opacity: 0, y: 40,
+                        duration: 0.6, stagger: 0.02, ease: 'power3.out',
+                        clearProps: 'all'
+                    }, '-=0.3')
+                    .from(introDesc, { 
+                        opacity: 0, y: 20, 
+                        duration: 0.5, ease: 'power3.out' 
+                    }, '-=0.3')
+                    .from(introImage, { 
+                        opacity: 0, scale: 0.95, x: 50, 
+                        duration: 0.8, ease: 'power3.out',
+                        clearProps: 'scale,x'
+                    }, '-=0.4');
+            }
+        }
+
+        // ============================================
+        // STATS SECTION - Counter
+        // ============================================
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            const statItems = statsSection.querySelectorAll('.stat-item');
+            const statNumbers = statsSection.querySelectorAll('.stat-number');
+            const originalValues = Array.from(statNumbers).map(n => n.textContent);
+
+            const statsTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: statsSection,
+                    start: 'top 80%',
+                    end: 'top 30%',
+                    toggleActions: 'play none none reverse',
+                    onEnter: () => {
+                        statNumbers.forEach((el, i) => {
+                            const text = originalValues[i];
+                            const num = parseInt(text);
+                            if (!isNaN(num)) {
+                                const suffix = text.includes('+') ? '+' : (text.includes('%') ? '%' : '');
+                                gsap.fromTo({ val: 0 }, { val: 0 }, {
+                                    val: num, duration: 1.8, delay: i * 0.1,
+                                    ease: 'power2.out',
+                                    onUpdate: function() { 
+                                        el.textContent = Math.round(this.targets()[0].val) + suffix; 
+                                    }
+                                });
+                            }
+                        });
+                    },
+                    onLeaveBack: () => {
+                        statNumbers.forEach((n, i) => n.textContent = originalValues[i]);
+                    }
+                }
+            });
+
+            statsTl.from(statItems, {
+                opacity: 0, y: 40, scale: 0.95,
+                duration: 0.6, stagger: 0.1, ease: 'power3.out',
+                clearProps: 'all'
+            });
+        }
+
+        // ============================================
+        // SERVICES SECTION - CORRECTED (no aggressive flip)
+        // ============================================
+        const servicesSection = document.querySelector('.services-section');
+        if (servicesSection && !prefersReducedMotion) {
+            const serviceHeader = servicesSection.querySelector('.section-header');
+            const serviceTitle = servicesSection.querySelector('.section-title');
+            const serviceCards = servicesSection.querySelectorAll('.service-card');
+
+            const servicesTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: servicesSection,
+                    start: 'top 70%',
+                    end: 'top 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            if (typeof SplitType !== 'undefined' && serviceTitle) {
+                const titleChars = new SplitType(serviceTitle, { types: 'chars' });
+                
+                servicesTl
+                    .from(serviceHeader, { 
+                        opacity: 0, y: 30, 
+                        duration: 0.5, ease: 'power3.out' 
+                    })
+                    .from(titleChars.chars, {
+                        opacity: 0, y: 30,
+                        duration: 0.5, stagger: 0.015, ease: 'power3.out',
+                        clearProps: 'all'
+                    }, '-=0.3')
+                    // CORRECTED: Simple elegant animation, no rotateY:-90
+                    .from(serviceCards, {
+                        opacity: 0,
+                        y: 60,
+                        scale: 0.96,
+                        duration: 0.7,
+                        stagger: 0.12,
+                        ease: 'power3.out',
+                        clearProps: 'all'
+                    }, '-=0.2');
+            }
+
+            // Subtle hover 3D (max 8 degrees)
+            serviceCards.forEach(card => {
+                const img = card.querySelector('img');
+
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, { 
+                        scale: 1.02, 
+                        boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+                        duration: 0.3, ease: 'power2.out' 
+                    });
+                    if (img) gsap.to(img, { scale: 1.05, duration: 0.4 });
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, { 
+                        scale: 1, rotateX: 0, rotateY: 0,
+                        boxShadow: '0 5px 20px rgba(0,0,0,0.2)',
+                        duration: 0.4, ease: 'power2.out' 
+                    });
+                    if (img) gsap.to(img, { scale: 1, duration: 0.4 });
+                });
+
+                // Subtle 3D tilt (max 8 degrees)
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+                    
+                    gsap.to(card, {
+                        rotateY: x * 8,
+                        rotateX: -y * 8,
+                        transformPerspective: 800,
+                        duration: 0.2,
+                        ease: 'power1.out'
+                    });
+                });
+            });
+        }
+
+        // ============================================
+        // GALLERY COLLAGE - CORRECTED (no x/y interference)
+        // ============================================
+        const previewSection = document.querySelector('.preview-section');
+        const galleryCollage = document.querySelector('.gallery-collage');
+        
+        if (previewSection && galleryCollage && !prefersReducedMotion) {
+            const collageImgs = galleryCollage.querySelectorAll('.collage-img');
+            const collageCta = galleryCollage.querySelector('.collage-cta');
+            const previewHeader = previewSection.querySelector('.section-header');
+            const previewTitle = previewSection.querySelector('.section-title');
+
+            const collageTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: previewSection,
+                    start: 'top 75%',
+                    end: 'top 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            if (typeof SplitType !== 'undefined' && previewTitle) {
+                const previewChars = new SplitType(previewTitle, { types: 'chars' });
+                
+                collageTl
+                    .from(previewHeader, { 
+                        opacity: 0, y: 30, 
+                        duration: 0.5, ease: 'power3.out' 
+                    })
+                    .from(previewChars.chars, {
+                        opacity: 0, y: 30,
+                        duration: 0.5, stagger: 0.015, ease: 'power3.out',
+                        clearProps: 'all'
+                    }, '-=0.3');
+            }
+
+            // CORRECTED: Only use opacity and scale, preserve CSS transforms
+            collageImgs.forEach((img, i) => {
+                collageTl.from(img, {
+                    opacity: 0,
+                    scale: 0.8,
+                    duration: 0.7,
+                    ease: 'power3.out',
+                    clearProps: 'scale' // Important: restore CSS transform
+                }, i === 0 ? '-=0.2' : '-=0.5');
+            });
+
+            if (collageCta) {
+                collageTl.from(collageCta, {
+                    opacity: 0,
+                    scale: 0.9,
+                    duration: 0.5,
+                    ease: 'back.out(1.5)',
+                    clearProps: 'all'
+                }, '-=0.3');
+            }
+
+            // CORRECTED: Magnetic hover that doesn't break CSS
+            let isHovering = false;
+            
+            galleryCollage.addEventListener('mouseenter', () => { isHovering = true; });
+            galleryCollage.addEventListener('mouseleave', () => {
+                isHovering = false;
+                // Reset to original positions
+                collageImgs.forEach(img => {
+                    gsap.to(img, { 
+                        x: 0, y: 0, 
+                        duration: 0.5, 
+                        ease: 'power2.out'
+                    });
+                });
+            });
+
+            galleryCollage.addEventListener('mousemove', (e) => {
+                if (!isHovering) return;
+                
+                const rect = galleryCollage.getBoundingClientRect();
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const mouseX = e.clientX - rect.left - centerX;
+                const mouseY = e.clientY - rect.top - centerY;
+
+                collageImgs.forEach((img, i) => {
+                    const depth = (i + 1) * 0.15; // Very subtle
+                    gsap.to(img, { 
+                        x: mouseX * depth,
+                        y: mouseY * depth,
+                        duration: 0.4, 
+                        ease: 'power2.out'
+                    });
+                });
+            });
+        }
+
+        // ============================================
+        // FOOTER
+        // ============================================
+        const footer = document.querySelector('.footer');
+        if (footer && !prefersReducedMotion) {
+            const footerElements = [
+                footer.querySelector('.footer-cta-title'),
+                footer.querySelector('.footer-cta-text'),
+                footer.querySelector('.whatsapp-btn'),
+                footer.querySelector('.footer-social'),
+                footer.querySelector('.footer-tagline')
+            ].filter(el => el);
+
+            const footerTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: footer,
+                    start: 'top 80%',
+                    end: 'top 30%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            footerTl.from(footerElements, {
+                opacity: 0, y: 40,
+                duration: 0.6, stagger: 0.08, ease: 'power3.out',
+                clearProps: 'all'
+            });
+        }
+
+        // ============================================
+        // WHATSAPP FLOAT VISIBILITY
+        // ============================================
+        const whatsappFloat = document.querySelector('.whatsapp-float');
+        const introSec = document.querySelector('.intro-section');
+
+        if (whatsappFloat) {
+            if (introSec) {
+                ScrollTrigger.create({
+                    trigger: introSec,
+                    start: 'top 80%',
+                    onEnter: () => whatsappFloat.classList.add('visible'),
+                    onLeaveBack: () => whatsappFloat.classList.remove('visible')
+                });
+            }
+
+            if (window.scrollY > window.innerHeight * 0.5) {
+                whatsappFloat.classList.add('visible');
+            }
+        }
+
+        // ============================================
+        // MAIN PAGE CARD STACKING
+        // ============================================
         const mainSections = document.querySelectorAll('.hero, .intro-section, .services-section, .preview-section, .footer');
         mainSections.forEach((section) => {
             ScrollTrigger.create({
@@ -179,168 +588,106 @@ document.addEventListener('DOMContentLoaded', () => {
                 pin: true,
                 pinSpacing: false,
                 scrub: true,
-                anticipatePin: 1,
-                fastScrollEnd: true,
-                preventOverlaps: true
+                anticipatePin: 1
             });
         });
 
+        // ============================================
+        // GALLERY PAGE - CORRECTED (no laggy gsap.set in loop)
+        // ============================================
         const categorySections = document.querySelectorAll('.category-section');
+        
+        // Z-index stacking
+        gsap.utils.toArray('.category-section').forEach((card, i) => {
+            card.style.zIndex = i + 10;
+        });
 
-        // 1. Cinematic Section Entry (Restored Premium Effects)
         categorySections.forEach((section) => {
-            const sectionId = section.id;
-            // Target children explicitly for better control
-            const content = section.querySelector('.container');
-            const header = section.querySelector('.category-header');
-            const grid = section.querySelector('.hof-grid');
+            const items = section.querySelectorAll('.hof-item');
+            
+            if (items.length > 0 && !prefersReducedMotion) {
+                // CORRECTED: Simple timeline with stagger (no scrub with gsap.set)
+                const galleryTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 75%',
+                        end: 'top 25%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
 
-            // Safety check
-            if (!content) return;
+                galleryTl.from(items, {
+                    opacity: 0,
+                    y: 50,
+                    scale: 0.94,
+                    duration: 0.6,
+                    stagger: {
+                        amount: 0.5,
+                        from: 'start'
+                    },
+                    ease: 'power2.out',
+                    clearProps: 'all'
+                });
 
-            // Ensure initial visibility is handled by GSAP to avoid FOUC or stuck states
-            // We don't set opacity: 0 in CSS, we let GSAP handle it
+                // Subtle hover effects
+                items.forEach(item => {
+                    const img = item.querySelector('img');
+                    const overlay = item.querySelector('.hof-item-overlay');
 
-            // Common ScrollTrigger Config for deep scrubbing
-            const scrubConfig = {
-                trigger: section,
-                start: "top 95%", // Start animating as soon as it enters
-                end: "top 20%",   // Finish when near the top (long scroll area)
-                scrub: 1.5,       // Smooth scrubbing delay
-                toggleActions: "play reverse play reverse"
-            };
+                    item.addEventListener('mouseenter', () => {
+                        gsap.to(item, { 
+                            scale: 1.03, 
+                            boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+                            duration: 0.3, ease: 'power2.out' 
+                        });
+                        if (img) gsap.to(img, { scale: 1.08, duration: 0.4 });
+                        if (overlay) gsap.to(overlay, { opacity: 1, duration: 0.3 });
+                    });
 
-            // Unique transitions per section
-            switch (sectionId) {
-                case 'polarizado': // Horizontal Slide
-                    gsap.fromTo(content,
-                        { x: 150, opacity: 0, filter: 'blur(5px)' },
-                        {
-                            x: 0,
-                            opacity: 1,
-                            filter: 'blur(0px)',
-                            ease: 'power2.out',
-                            scrollTrigger: scrubConfig
-                        }
-                    );
-                    break;
+                    item.addEventListener('mouseleave', () => {
+                        gsap.to(item, { 
+                            scale: 1, rotateX: 0, rotateY: 0,
+                            boxShadow: '0 5px 15px rgba(0,0,0,0.2)',
+                            duration: 0.3, ease: 'power2.out' 
+                        });
+                        if (img) gsap.to(img, { scale: 1, duration: 0.4 });
+                        if (overlay) gsap.to(overlay, { opacity: 0, duration: 0.3 });
+                    });
 
-                case 'detallado': //  Zoom Out
-                    gsap.fromTo(content,
-                        { scale: 1.2, opacity: 0 },
-                        {
-                            scale: 1,
-                            opacity: 1,
-                            ease: 'power2.out',
-                            scrollTrigger: scrubConfig
-                        }
-                    );
-                    break;
-
-                case 'pintura': // Reveal Wipe
-                    gsap.fromTo(content,
-                        { clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)', opacity: 0 },
-                        {
-                            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-                            opacity: 1,
-                            ease: 'power2.inOut',
-                            scrollTrigger: scrubConfig
-                        }
-                    );
-                    break;
-
-                case 'calipers': // 3D Tilt Up
-                    gsap.fromTo(content,
-                        { y: 150, opacity: 0, rotationX: 45, transformPerspective: 1000 },
-                        {
-                            y: 0,
-                            opacity: 1,
-                            rotationX: 0,
-                            ease: 'power2.out',
-                            scrollTrigger: scrubConfig
-                        }
-                    );
-                    break;
-
-                default: // Fallback Fade Up
-                    gsap.fromTo(content,
-                        { y: 100, opacity: 0 },
-                        {
-                            y: 0,
-                            opacity: 1,
-                            ease: 'power2.out',
-                            scrollTrigger: scrubConfig
-                        }
-                    );
+                    // Subtle 3D tilt (max 6 degrees)
+                    item.addEventListener('mousemove', (e) => {
+                        const rect = item.getBoundingClientRect();
+                        const x = (e.clientX - rect.left) / rect.width - 0.5;
+                        const y = (e.clientY - rect.top) / rect.height - 0.5;
+                        
+                        gsap.to(item, {
+                            rotateY: x * 6,
+                            rotateX: -y * 6,
+                            transformPerspective: 800,
+                            duration: 0.2,
+                            ease: 'power1.out'
+                        });
+                    });
+                });
             }
         });
 
-        // 2. Hover Effects (Global - Run once)
-        const galleryItems = document.querySelectorAll('.hof-item');
-        if (galleryItems.length > 0) {
-            galleryItems.forEach(item => {
-                const img = item.querySelector('img');
-                const overlay = item.querySelector('.hof-item-overlay');
-
-                item.addEventListener('mouseenter', () => {
-                    gsap.to(item, { scale: 1.05, boxShadow: '0 20px 40px rgba(0,0,0,0.4)', duration: 0.4 });
-                    if (img) gsap.to(img, { scale: 1.1, duration: 0.4 });
-                    if (overlay) gsap.to(overlay, { opacity: 1, duration: 0.3 });
-                });
-
-                item.addEventListener('mouseleave', () => {
-                    gsap.to(item, { scale: 1, boxShadow: '0 5px 15px rgba(0,0,0,0.2)', duration: 0.4 });
-                    if (img) gsap.to(img, { scale: 1, duration: 0.4 });
-                    if (overlay) gsap.to(overlay, { opacity: 0, duration: 0.3 });
-                });
-
-                // 3D Tilt
-                item.addEventListener('mousemove', (e) => {
-                    const rect = item.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-
-                    gsap.to(item, {
-                        rotateX: (y - centerY) / 10,
-                        rotateY: (centerX - x) / 10,
-                        duration: 0.4,
-                        ease: 'power1.out',
-                        transformPerspective: 1000
-                    });
-                });
-
-                item.addEventListener('mouseleave', () => {
-                    gsap.to(item, { rotateX: 0, rotateY: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' });
-                });
-            });
-
-            // 3. Simple Parallax
-            galleryItems.forEach((item, index) => {
-                const speed = [0.1, 0.2, 0.05, 0.15][index % 4];
-                gsap.to(item, {
-                    scrollTrigger: {
-                        trigger: item,
-                        start: 'top bottom',
-                        end: 'bottom top',
-                        scrub: 1
-                    },
-                    yPercent: -20 * speed,
-                    ease: 'none'
-                });
-            });
-        }
-
-        // Refresh ScrollTrigger on resize
+        // Refresh on resize
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
         });
 
-        console.log('%c✓ GSAP & Gallery Effects Active', 'color: #D4AF37; font-weight: bold;');
+        console.log('%c✓ All animations initialized', 'color: #D4AF37; font-weight: bold;');
     }
 
-    console.log('%c🚗 El Garage Euro Car Loaded', 'font-size: 16px; font-weight: bold;');
+    // If no preloader exists, init immediately
+    if (!preloader) {
+        if (typeof gsap !== 'undefined') {
+            initAllAnimations();
+        }
+    }
+
+    console.log('%c🚗 El Garage Euro Car', 'font-size: 14px; font-weight: bold; color: #D4AF37;');
 });
