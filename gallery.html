@@ -338,6 +338,19 @@
             transform: none !important;
             /* Prevent GSAP translation from hiding it */
         }
+
+        /* LOGO ITEM FIX */
+        .gallery__item--logo {
+            background-color: #000 !important;
+            /* Force black background to blend */
+        }
+
+        .gallery__item--logo img {
+            object-fit: contain !important;
+            /* Prevent zoom/crop */
+            transform: scale(1.35) !important;
+            /* Make it smaller to breathe */
+        }
     </style>
 </head>
 
@@ -373,7 +386,7 @@
             <div class="gallery__item">
                 <img src="images/image-copy.png" alt="Trabajo 2" />
             </div>
-            <div class="gallery__item">
+            <div class="gallery__item gallery__item--logo">
                 <img src="images/logo.png" alt="El Garage Euro Car" />
             </div>
             <div class="gallery__item">
