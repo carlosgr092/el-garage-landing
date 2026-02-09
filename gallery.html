@@ -527,6 +527,28 @@
         document.addEventListener('DOMContentLoaded', () => {
             console.clear();
 
+            // Navbar Toggle Logic
+            const navToggle = document.querySelector('.nav-toggle');
+            const nav = document.querySelector('.nav');
+
+            if (navToggle && nav) {
+                navToggle.addEventListener('click', () => {
+                    nav.classList.toggle('active');
+                    const expanded = nav.classList.contains('active');
+                    navToggle.setAttribute('aria-expanded', expanded);
+                    navToggle.innerHTML = expanded ? '✕' : '☰';
+                });
+
+                // Close menu when clicking a link
+                nav.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        nav.classList.remove('active');
+                        navToggle.setAttribute('aria-expanded', 'false');
+                        navToggle.innerHTML = '☰';
+                    });
+                });
+            }
+
             // SAFETY: Force visibility immediately in case script fails
             gsap.set("#gallery-8, body", { autoAlpha: 1 });
 

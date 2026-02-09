@@ -239,7 +239,7 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    mix-blend-mode: difference;
+    /* mix-blend-mode: difference;  REMOVED: Causes issues with mobile menu overlay */
 }
 
 .logo {
@@ -247,6 +247,8 @@ img {
     font-size: 1.5rem;
     letter-spacing: 0.05em;
     color: var(--white);
+    mix-blend-mode: difference;
+    /* Apply to text only */
 }
 
 .nav {
@@ -260,6 +262,7 @@ img {
     letter-spacing: 0.15em;
     opacity: 0.7;
     transition: opacity 0.3s ease;
+    mix-blend-mode: difference;
 }
 
 .nav-link:hover {
@@ -274,6 +277,7 @@ img {
     color: var(--white);
     font-size: 1.5rem;
     cursor: pointer;
+    mix-blend-mode: difference;
 }
 
 /* ============================================
@@ -1424,16 +1428,25 @@ img {
     .nav {
         display: none;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
         position: fixed;
-        top: 60px;
-        /* Below header */
-        left: 0;
-        right: 0;
-        background: var(--black);
+        inset: 0;
+        height: 100vh;
+        width: 100vw;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         padding: 2rem;
-        gap: 1.5rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        gap: 2.5rem;
         z-index: 99;
+    }
+
+    .nav-link {
+        font-size: 1.5rem;
+        letter-spacing: 0.2em;
+        opacity: 0.8;
+        mix-blend-mode: normal;
     }
 
     .nav.active {
@@ -1442,6 +1455,9 @@ img {
 
     .nav-toggle {
         display: block;
+        position: relative;
+        z-index: 101;
+        /* Above nav */
     }
 
     /* Hero full frame for mobile */
@@ -1495,16 +1511,20 @@ img {
     }
 
     /* Services - Full frame mobile with centered titles */
+    /* Services - Full frame mobile with centered titles */
     .services-section {
-        height: 100vh;
+        height: auto;
         min-height: 100vh;
-        max-height: 100vh;
-        padding: 2rem 1.5rem;
+        max-height: none;
+        /* Allow scroll if needed on small screens */
+        padding: 4rem 1.5rem;
+        /* More distinct padding */
+        overflow-x: hidden;
     }
 
     .section-header {
         text-align: center;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
     }
 
     .section-subtitle {
@@ -1514,13 +1534,18 @@ img {
     }
 
     .section-title .split-text {
-        font-size: 4.5rem;
-        line-height: 0.85;
+        font-size: clamp(2.5rem, 10vw, 4rem) !important;
+        /* Optimized balance between size and fit */
+        line-height: 0.9;
+        margin-top: 0;
     }
 
     /* Services - Mobile (scaled desktop) */
     .services-section {
-        padding: 5rem 1rem 3rem;
+        padding: 4rem 1rem;
+        /* Balanced padding */
+        overflow-x: hidden;
+        /* Prevent horizontal scroll */
     }
 
     .services-grid {
