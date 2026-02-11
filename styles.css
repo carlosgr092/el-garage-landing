@@ -2267,3 +2267,80 @@ img {
         grid-area: auto !important;
     }
 }
+
+/* ==========================================================================
+   MEGA GALLERY - PREMIUM GRID
+   ========================================================================== */
+.mega-gallery {
+    padding: 10vh 5vw;
+    background: #000;
+}
+
+.mega-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.mega-item {
+    position: relative;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #111;
+    cursor: pointer;
+    /* Premium smooth transition */
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, filter;
+    z-index: 1;
+}
+
+.mega-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Subtle initial grayscale for premium "unlit" look */
+    filter: brightness(0.8) grayscale(0.2);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+}
+
+/* PREMIUM HOVER EFFECTS */
+.mega-item:hover {
+    transform: scale(1.05);
+    z-index: 10;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+.mega-item:hover img {
+    filter: brightness(1.2) grayscale(0);
+    transform: scale(1.1);
+    /* Internal zoom */
+}
+
+/* RESPONSIVE MEGA GRID */
+@media (max-width: 1024px) {
+    .mega-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mega-gallery {
+        padding: 5vh 4vw;
+    }
+
+    .mega-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mega-grid {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 15px;
+    }
+}
